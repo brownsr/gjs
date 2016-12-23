@@ -99,6 +99,10 @@ function testImporterUTF8() {
     JSUnit.assertEquals(ModUnicode.uval, "const \u2665 utf8");
 }
 
+function testImportOverrides() {
+    JSUnit.assertRaises(() => imports.gi.Fail);
+}
+
 let oldSearchPath;
 
 function setUp() {

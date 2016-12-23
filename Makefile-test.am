@@ -143,6 +143,12 @@ jsunit_SOURCES = \
 ### TEST GIRS ##########################################################
 
 TEST_INTROSPECTION_GIRS =
+test_introspection_libraries =		\
+	libfail.la			\
+	libregress.la			\
+	libwarnlib.la			\
+	libgimarshallingtests.la	\
+	$(NULL)
 common_test_ldflags = -avoid-version
 common_test_libadd = $(GJS_LIBS)
 
@@ -153,7 +159,7 @@ if !BUILDOPT_INSTALL_TESTS
 common_test_ldflags += -rpath /nowhere
 # In the installed tests case, these libraries are built for pkglibdir; sadly we
 # can only have one destination at a time
-check_LTLIBRARIES += libregress.la libwarnlib.la libgimarshallingtests.la
+check_LTLIBRARIES += $(test_introspection_libraries)
 endif
 
 # These sources are installed as part of gobject-introspection, and symlinked
@@ -221,6 +227,13 @@ GIMarshallingTests_1_0_gir_SCANNERFLAGS =	\
 	$(WARN_SCANNERFLAGS)			\
 	$(NULL)
 TEST_INTROSPECTION_GIRS += GIMarshallingTests-1.0.gir
+
+libfail_la_SOURCES = installed-tests/fail.c installed-tests/fail.h
+Fail-1.gir: libfail.la
+Fail_1_gir_LIBS = libfail.la
+Fail_1_gir_FILES = installed-tests/fail.h
+Fail_1_gir_SCANNERFLAGS = --symbol-prefix=fail $(WARN_SCANNERFLAGS)
+TEST_INTROSPECTION_GIRS += Fail-1.gir
 
 $(foreach gir,$(TEST_INTROSPECTION_GIRS),$(eval $(call introspection-scanner,$(gir))))
 TEST_INTROSPECTION_TYPELIBS = $(TEST_INTROSPECTION_GIRS:.gir=.typelib)

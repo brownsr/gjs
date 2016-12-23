@@ -24,7 +24,7 @@ gjsinsttest_PROGRAMS += jsunit
 gjsinsttest_DATA += $(TEST_INTROSPECTION_TYPELIBS)
 installedtestmeta_DATA += jsunit.test
 jstests_DATA += $(common_jstests_files)
-pkglib_LTLIBRARIES += libregress.la libwarnlib.la libgimarshallingtests.la
+pkglib_LTLIBRARIES += $(test_introspection_libraries)
 
 if ENABLE_CAIRO
 jstests_DATA += installed-tests/js/testCairo.js
